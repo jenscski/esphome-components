@@ -1,0 +1,155 @@
+esphome:
+  name: esphome-aw9523
+
+external_components:
+  - source:
+      type: local
+      path: components
+
+esp32:
+  board: featheresp32
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+i2c:
+  scan: false
+
+aw9523:
+  - id: aw9523_1
+    address: 0x58
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+
+light:
+  - platform: monochromatic
+    name: Builtin LED
+    output: led_builtin
+    id: foobar
+
+  - platform: monochromatic
+    name: AW9523 00
+    output: aw9523_pin_0
+
+  - platform: monochromatic
+    name: AW9523 01
+    output: aw9523_pin_1
+
+  - platform: rgb
+    name: "Living Room Lights"
+    red: aw9523_pin_2
+    green: aw9523_pin_3
+    blue: aw9523_pin_4
+
+output:
+  - id: led_builtin
+    platform: ledc
+    pin: 13
+
+  - platform: aw9523
+    aw9523: aw9523_1
+    id: aw9523_pin_0
+    max_power: 0.27
+    pin: 0
+
+  - platform: aw9523
+    aw9523: aw9523_1
+    id: aw9523_pin_1
+    max_power: 0.27
+    pin: 1
+
+  - platform: aw9523
+    aw9523: aw9523_1
+    id: aw9523_pin_2
+    max_power: 0.27
+    pin: 2
+
+  - platform: aw9523
+    aw9523: aw9523_1
+    id: aw9523_pin_3
+    max_power: 0.27
+    pin: 3
+
+  - platform: aw9523
+    aw9523: aw9523_1
+    id: aw9523_pin_4
+    max_power: 0.27
+    pin: 4
+
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_5
+#    max_power: 0.27
+#    pin: 5
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_6
+#    max_power: 0.27
+#    pin: 6
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_7
+#    max_power: 0.27
+#    pin: 7
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_8
+#    max_power: 0.27
+#    pin: 8
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_9
+#    max_power: 0.27
+#    pin: 9
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_10
+#    max_power: 0.27
+#    pin: 10
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_11
+#    max_power: 0.27
+#    pin: 11
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_12
+#    max_power: 0.27
+#    pin: 12
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_13
+#    max_power: 0.27
+#    pin: 13
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_14
+#    max_power: 0.27
+#    pin: 14
+#
+#  - platform: aw9523
+#    aw9523: aw9523_1
+#    id: aw9523_pin_15
+#    max_power: 0.27
+#    pin: 15

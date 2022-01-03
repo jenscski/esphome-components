@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "memory": "cpp",
+        "random": "cpp",
+        "optional": "cpp"
+    },
+    "files.exclude": {
+        "**/__pycache__": true
+    }
+}

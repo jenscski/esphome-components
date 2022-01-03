@@ -1,1 +1,1 @@
-# esphome-aw9523
+# ESPHome Components
