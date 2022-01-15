@@ -22,14 +22,16 @@ namespace esphome
         {
             ESP_LOGD(TAG, "setup pin %d", this->pin_);
 
-            this->parent_->setup_led_driver(this->pin_);
+            this->parent_->led_driver(this->pin_);
             this->turn_off();
         }
 
         void AW9523FloatOutputChannel::dump_config()
         {
+            float current = (37 * this->max_power_) / 4 * (4 - this->parent_->get_divider());
             ESP_LOGCONFIG(TAG, "AW9523 PWM:");
-            ESP_LOGCONFIG(TAG, "  aw9523 pin: %d", this->pin_);
+            ESP_LOGCONFIG(TAG, "  Pin: %d", this->pin_);
+            ESP_LOGCONFIG(TAG, "  Max current: %.0f ma", current);
             LOG_FLOAT_OUTPUT(this);
         }
 
