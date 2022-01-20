@@ -28,6 +28,7 @@ namespace esphome
             void init_contrast(float contrast) { this->contrast_ = contrast; }
             void set_contrast(float contrast);
             void init_invert(bool invert) { this->invert_ = invert; }
+            void set_invert(bool invert);
             bool is_on();
             void turn_on();
             void turn_off();
