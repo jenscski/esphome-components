@@ -62,8 +62,25 @@ namespace esphome
             this->command(SH1107_COMMAND_SET_MULTIPLEX);
             this->command(0x3f);
 
-            this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
-            this->command(0x60);
+            switch (this->model_)
+            {
+            case SH1107Model::SH1107_MODEL_64_128:
+                this->set_rotation(display::DISPLAY_ROTATION_90_DEGREES);
+
+                this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
+                this->command(0x60);
+                break;
+
+            case SH1107Model::SH1107_MODEL_128_128:
+                this->set_rotation(display::DISPLAY_ROTATION_0_DEGREES);
+
+                this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
+                this->command(0x00);
+                break;
+
+            default:
+                break;
+            }
 
             // Set oscillator frequency to 4'b1000 with no clock division (0xD5)
             this->command(SH1107_COMMAND_SET_DISPLAY_CLOCK_DIV);
@@ -80,6 +97,7 @@ namespace esphome
             this->command(0x8a);
 
             set_contrast(this->contrast_);
+            set_invert(this->invert_);
 
             this->fill(Color::BLACK); // clear display - ensures we do not see garbage at power-on
             this->display();          // ...write buffer, which actually clears the display's memory
@@ -100,13 +118,24 @@ namespace esphome
         void SH1107::set_contrast(float contrast)
         {
             ESP_LOGD(TAG, "Constrast %f", contrast);
-            
+
             // validation
             this->contrast_ = clamp(contrast, 0.0F, 1.0F);
             // now write the new contrast level to the display (0x81)
             this->command(SH1107_COMMAND_SET_CONTRAST);
             this->command(int(SH1107_MAX_CONTRAST * (this->contrast_)));
         }
+
+        void SH1107::set_invert(bool invert)
+        {
+            this->invert_ = invert;
+
+            if (this->invert_)
+                this->command(SH1107_COMMAND_INVERSE_DISPLAY);
+            else
+                this->command(SH1107_COMMAND_NORMAL_DISPLAY);
+        }
+
         bool SH1107::is_on() { return this->is_on_; }
         void SH1107::turn_on()
         {
