@@ -44,6 +44,7 @@ namespace esphome
 
         void HOT I2CSH1107::write_display_data()
         {
+            uint32_t i = 0;
             for (uint8_t page = 0; page < (uint8_t)this->get_height_internal() / 8; page++)
             {
                 this->command(0xB0 + page); // row
