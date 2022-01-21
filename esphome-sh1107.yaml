@@ -1,0 +1,81 @@
+esphome:
+  name: esphome-sh1107
+
+external_components:
+  - source:
+      type: local
+      path: components
+
+esp32:
+  board: featheresp32
+  framework:
+    type: esp-idf
+
+logger:
+
+globals:
+   - id: inverse_display
+     type: bool
+     restore_value: no
+     initial_value: 'false'
+
+i2c:
+  frequency: 800kHz
+  scan: true
+
+font:
+  - file: "fonts/DelugiaComplete.ttf"
+    id: my_font
+    size: 18
+
+display:
+  - platform: sh1107_i2c
+    model: SH1107 64X128
+    id: my_display
+    rotation: 90
+    contrast: 0.1
+    lambda: |-
+      it.print(it.get_width() / 2, it.get_height() / 2, id(my_font), TextAlign::CENTER, "Hello World");
+
+      it.line(0, 0, it.get_width(), it.get_height());
+      it.line(0,it.get_height(),it.get_width(),0);
+      it.rectangle(0,0,it.get_width(),it.get_height());
+
+binary_sensor:
+  - platform: gpio
+    id: button_a
+    pin:
+      number: 15
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_click:
+      then:
+        - lambda: |-
+            id(my_display).set_contrast(0.1);
+  - platform: gpio
+    id: button_b
+    pin:
+      number: 32
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_click:
+      then:
+        - lambda: |-
+            id(my_display).set_contrast(1.0);
+  - platform: gpio
+    id: button_c
+    pin:
+      number: 14
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_click:
+      then:
+        - lambda: |-
+            id(inverse_display) = !id(inverse_display);
+            id(my_display).set_invert(id(inverse_display));
