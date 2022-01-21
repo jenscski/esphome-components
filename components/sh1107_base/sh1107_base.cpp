@@ -16,6 +16,7 @@ namespace esphome
 #define SH1107_COMMAND_SET_DISPLAY_CLOCK_DIV 0xD5
 #define SH1107_COMMAND_SET_MULTIPLEX 0xA8
 #define SH1107_COMMAND_SET_DISPLAY_OFFSET_Y 0xD3
+#define SH1107_COMMAND_DISPLAY_STARTLINE 0xDC
 #define SH1107_COMMAND_SET_START_LINE 0x40
 #define SH1107_COMMAND_CHARGE_PUMP 0x8D
 #define SH1107_COMMAND_MEMORY_MODE 0x20
@@ -40,15 +41,12 @@ namespace esphome
             // Turn off display during initialization (0xAE)
             this->command(SH1107_COMMAND_DISPLAY_OFF);
 
-            this->command(0x00);
-            this->command(0x10);
-            this->command(0xb0);
+            // this->command(0x00);
+            // this->command(0x10);
+            // this->command(0xb0);
 
-            this->command(0xDC);
+            this->command(SH1107_COMMAND_DISPLAY_STARTLINE);
             this->command(0x00);
-
-            // this->command(SH1107_COMMAND_SET_CONTRAST);
-            // this->command(0x3F);
 
             this->command(SH1107_COMMAND_MEMORY_MODE);
             this->command(SH1107_COMMAND_SEGRE_MAP);
@@ -65,15 +63,11 @@ namespace esphome
             switch (this->model_)
             {
             case SH1107Model::SH1107_MODEL_64_128:
-                this->set_rotation(display::DISPLAY_ROTATION_90_DEGREES);
-
                 this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
                 this->command(0x60);
                 break;
 
             case SH1107Model::SH1107_MODEL_128_128:
-                this->set_rotation(display::DISPLAY_ROTATION_0_DEGREES);
-
                 this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
                 this->command(0x00);
                 break;
@@ -117,10 +111,9 @@ namespace esphome
         }
         void SH1107::set_contrast(float contrast)
         {
-            ESP_LOGD(TAG, "Constrast %f", contrast);
-
             // validation
             this->contrast_ = clamp(contrast, 0.0F, 1.0F);
+
             // now write the new contrast level to the display (0x81)
             this->command(SH1107_COMMAND_SET_CONTRAST);
             this->command(int(SH1107_MAX_CONTRAST * (this->contrast_)));
@@ -201,7 +194,7 @@ namespace esphome
             switch (this->model_)
             {
             case SH1107_MODEL_64_128:
-                return "SH1107 128x64";
+                return "SH1107 64x128";
             case SH1107_MODEL_128_128:
                 return "SH1107 128x128";
             default:

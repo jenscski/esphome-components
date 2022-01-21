@@ -29,6 +29,7 @@ namespace esphome
             LOG_I2C_DEVICE(this);
             ESP_LOGCONFIG(TAG, "  Model: %s", this->model_str_());
             ESP_LOGCONFIG(TAG, "  Inverted Color: %s", YESNO(this->invert_));
+            ESP_LOGCONFIG(TAG, "  Contrast: %.2f", this->contrast_);
             LOG_UPDATE_INTERVAL(this);
 
             if (this->error_code_ == COMMUNICATION_FAILED)

@@ -9,24 +9,22 @@ external_components:
 esp32:
   board: featheresp32
   framework:
-    type: arduino
+    type: esp-idf
 
-# Enable logging
 logger:
 
-# Enable Home Assistant API
-#api:
-#  password: ""
-
-#ota:
-#  password: ""
+globals:
+   - id: inverse_display
+     type: bool
+     restore_value: no
+     initial_value: 'false'
 
 i2c:
   frequency: 800kHz
   scan: true
 
 font:
-  - file: "DelugiaComplete.ttf"
+  - file: "fonts/DelugiaComplete.ttf"
     id: my_font
     size: 18
 
@@ -35,7 +33,6 @@ display:
     model: SH1107 64X128
     id: my_display
     rotation: 90
-    invert: true
     contrast: 0.1
     lambda: |-
       it.print(it.get_width() / 2, it.get_height() / 2, id(my_font), TextAlign::CENTER, "Hello World");
@@ -56,7 +53,7 @@ binary_sensor:
     on_click:
       then:
         - lambda: |-
-            id(my_display).set_contrast(rand() / double(RAND_MAX));
+            id(my_display).set_contrast(0.1);
   - platform: gpio
     id: button_b
     pin:
@@ -68,7 +65,7 @@ binary_sensor:
     on_click:
       then:
         - lambda: |-
-            id(my_display).turn_on();
+            id(my_display).set_contrast(1.0);
   - platform: gpio
     id: button_c
     pin:
@@ -80,4 +77,5 @@ binary_sensor:
     on_click:
       then:
         - lambda: |-
-            id(my_display).turn_off();
+            id(inverse_display) = !id(inverse_display);
+            id(my_display).set_invert(id(inverse_display));

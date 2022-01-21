@@ -23,7 +23,7 @@ SH1107_MODEL = cv.enum(MODELS, upper=True, space="_")
 SH1107_SCHEMA = display.FULL_DISPLAY_SCHEMA.extend(
     {
         cv.Required(CONF_MODEL): SH1107_MODEL,
-        cv.Optional(CONF_CONTRAST, default=1.0): cv.percentage,
+        cv.Optional(CONF_CONTRAST, default=0.2): cv.percentage,
         cv.Optional(CONF_INVERT, default=False): cv.boolean,
     }
 ).extend(cv.polling_component_schema("1s"))
