@@ -19,16 +19,24 @@ namespace esphome
 
         void AW9523FloatOutputChannel::setup()
         {
+            if (this->max_current_ > this->parent_->get_max_current())
+            {
+                ESP_LOGW(TAG, "Configured current %.2fmA is exceeding global max current %.2fmA",
+                         this->max_current_, this->parent_->get_max_current());
+                this->max_current_ = this->parent_->get_max_current();
+            }
+
+            this->max_power_ = this->max_current_ / this->parent_->get_max_current();
+
             this->parent_->led_driver(this->pin_);
             this->turn_off();
         }
 
         void AW9523FloatOutputChannel::dump_config()
         {
-            float current = (37 * this->max_power_) / 4 * (4 - this->parent_->get_divider());
             ESP_LOGCONFIG(TAG, "AW9523 PWM:");
             ESP_LOGCONFIG(TAG, "  Pin: %d", this->pin_);
-            ESP_LOGCONFIG(TAG, "  Max current: %.0f ma", current);
+            ESP_LOGCONFIG(TAG, "  Max current: %.2f mA", this->max_current_);
             LOG_FLOAT_OUTPUT(this);
         }
 

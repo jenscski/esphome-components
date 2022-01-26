@@ -75,6 +75,7 @@ namespace esphome
             }
             LOG_I2C_DEVICE(this)
             ESP_LOGCONFIG(TAG, "  Divider: %d", this->divider_);
+            ESP_LOGCONFIG(TAG, "  Max current: %.2f", this->get_max_current());
 
             ESP_LOGCONFIG(TAG, "GCR  %s", format_binary((uint8_t)this->reg(AW9523_REG_GCR)).c_str());
 
@@ -89,6 +90,11 @@ namespace esphome
             ESP_LOGCONFIG(TAG, "INT %s%s",
                           format_binary((uint8_t)this->reg(AW9523_REG_INTENABLE1)).c_str(),
                           format_binary((uint8_t)this->reg(AW9523_REG_INTENABLE0)).c_str());
+        }
+
+        float AW9523Component::get_max_current()
+        {
+            return (37.0 / 4) * (4 - this->divider_);
         }
 
         void AW9523Component::set_divider(uint8_t divider)

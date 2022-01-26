@@ -38,6 +38,8 @@ namespace esphome
             void set_divider(uint8_t divider);
             uint8_t get_divider();
 
+            float get_max_current();
+
             void led_driver(uint8_t pin);
             void set_pin_value(uint8_t pin, uint8_t val);
 
