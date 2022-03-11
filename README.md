@@ -8,3 +8,9 @@ https://www.adafruit.com/product/4886
 ## SH1107 OLED Driver
 Tested with Adafruit FeatherWing OLED - 128x64 OLED
 https://www.adafruit.com/product/4650
+
+```yaml
+external_components:
+  - source: github://jenscski/esphome-components@main
+    components: [ sh1107_base, sh1107_i2c ]
+```
