@@ -56,20 +56,23 @@ namespace esphome
             this->command(SH1107_COMMAND_DISPLAY_ALL_ON_RESUME);
 
             this->command(SH1107_COMMAND_NORMAL_DISPLAY);
-
-            this->command(SH1107_COMMAND_SET_MULTIPLEX);
-            this->command(0x3f);
-
+            
             switch (this->model_)
             {
             case SH1107Model::SH1107_MODEL_64_128:
                 this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
                 this->command(0x60);
+                    
+                this->command(SH1107_COMMAND_SET_MULTIPLEX);
+                this->command(0x3f);
                 break;
 
             case SH1107Model::SH1107_MODEL_128_128:
                 this->command(SH1107_COMMAND_SET_DISPLAY_OFFSET_Y);
                 this->command(0x00);
+                
+                this->command(SH1107_COMMAND_SET_MULTIPLEX);
+                this->command(0x3f);
                 break;
 
             default:
