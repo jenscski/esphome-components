@@ -72,7 +72,7 @@ namespace esphome
                 this->command(0x00);
                 
                 this->command(SH1107_COMMAND_SET_MULTIPLEX);
-                this->command(0x3f);
+                this->command(0x7f);
                 break;
 
             default:
