@@ -4,6 +4,11 @@
 Tested with Adafruit AW9523 GPIO Expander and LED Driver Breakout
 https://www.adafruit.com/product/4886
 
+```yaml
+external_components:
+  - source: github://jenscski/esphome-components@main
+    components: [ aw9523 ]
+```
 
 ## SH1107 OLED Driver
 Tested with Adafruit FeatherWing OLED - 128x64 OLED
