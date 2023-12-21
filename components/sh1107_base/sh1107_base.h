@@ -15,7 +15,7 @@ namespace esphome
             SH1107_MODEL_128_128,
         };
 
-        class SH1107 : public PollingComponent, public display::DisplayBuffer
+        class SH1107 : public display::DisplayBuffer
         {
         public:
             void setup() override;
