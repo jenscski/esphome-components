@@ -28,7 +28,7 @@ namespace esphome
         public:
             AW9523Component() = default;
 
-            float get_setup_priority() const override { return setup_priority::HARDWARE; }
+            float get_setup_priority() const override { return setup_priority::IO; }
 
             void setup() override;
             void dump_config() override;
