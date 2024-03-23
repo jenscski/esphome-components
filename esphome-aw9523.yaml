@@ -28,6 +28,7 @@ aw9523:
   - id: aw9523_1
     address: 0x58
     divider: 3
+    latch_inputs: true
 
 wifi:
   ssid: !secret wifi_ssid
