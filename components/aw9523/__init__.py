@@ -12,6 +12,7 @@ from esphome.const import (
 )
 
 CONF_AW9523 = "aw9523"
+CONF_LATCH_INPUTS = "latch_inputs"
 
 DEPENDENCIES = ["i2c"]
 MULTI_CONF = True
@@ -26,6 +27,7 @@ CONFIG_SCHEMA = (
         {
             cv.Required(CONF_ID): cv.declare_id(AW9523Component),
             cv.Optional("divider", default=0): cv.int_range(min=0, max=3),
+            cv.Optional(CONF_LATCH_INPUTS, default=True): cv.boolean,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
@@ -37,6 +39,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await i2c.register_i2c_device(var, config)
     cg.add(var.set_divider(config["divider"]))
+    cg.add(var.set_latch_inputs(config[CONF_LATCH_INPUTS]))
     return var
 
 def validate_mode(value):

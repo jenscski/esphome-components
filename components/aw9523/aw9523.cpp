@@ -53,7 +53,7 @@ namespace esphome
 
         void AW9523Component::loop()
         {
-            if (this->is_failed())
+            if (this->is_failed() || !this->latch_inputs_)
                 return;
 
             auto input0 = this->reg(AW9523_REG_INPUT0).get();
@@ -200,9 +200,24 @@ namespace esphome
 
         bool AW9523Component::digital_read(uint8_t pin)
         {
-            uint16_t value = (1 << pin);
-
-            return this->value_ & value;
+            if (this->latch_inputs_) {
+                uint16_t value = (1 << pin);
+                return this->value_ & value;
+            } else {
+                if (!this->is_failed()) {
+                    if (pin < 8)
+                    {
+                        uint8_t value = (1 << pin);
+                        return this->reg(AW9523_REG_INPUT0).get() & value;
+                    }
+                    else if (pin < 16)
+                    {
+                        uint8_t value = (1 << (pin - 8));
+                        return this->reg(AW9523_REG_INPUT1).get() & value;
+                    }
+                }
+                return false;
+            }
         }
 
     } // namespace aw9523

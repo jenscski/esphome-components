@@ -38,6 +38,8 @@ namespace esphome
             void set_divider(uint8_t divider);
             uint8_t get_divider();
 
+            void set_latch_inputs(bool latch_inputs) { this->latch_inputs_ = latch_inputs; }
+
             float get_max_current();
 
             void led_driver(uint8_t pin);
@@ -50,6 +52,7 @@ namespace esphome
         private:
             uint16_t value_{};
             uint8_t divider_{};
+            bool latch_inputs_{};
         };
 
     } // namespace aw9523
