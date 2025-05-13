@@ -14,6 +14,7 @@ namespace esphome
         public:
             void setup() override;
             void pin_mode(gpio::Flags flags) override;
+            gpio::Flags get_flags() const override;
             bool digital_read() override;
             void digital_write(bool value) override;
 
