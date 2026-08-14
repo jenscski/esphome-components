@@ -115,7 +115,7 @@ namespace esphome
             uint8_t reg{};
 
             // See Table 13. 256 step dimming control register
-            if ((pin >= 0) && (pin <= 7))
+            if (pin <= 7)
             {
                 reg = 0x24 + pin;
             }

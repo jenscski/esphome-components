@@ -23,7 +23,7 @@ namespace esphome
             void set_inverted(bool inverted) { inverted_ = inverted; }
             void set_flags(gpio::Flags flags) { flags_ = flags; }
 
-            std::string dump_summary() const override;
+            size_t dump_summary(char *buffer, size_t len) const override;
 
         protected:
             AW9523Component *parent_;
